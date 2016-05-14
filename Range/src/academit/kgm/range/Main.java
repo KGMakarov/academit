@@ -1,4 +1,5 @@
-import java.util.Arrays;
+package academit.kgm.range;
+
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner (System.in);
+        Scanner scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
 
         System.out.println("Введите нижнюю границу диапазона 1: ");
@@ -17,7 +18,7 @@ public class Main {
         System.out.println("Введите число, которое нужно проверить на принадлежность диапазону 1: ");
         double x = scanner.nextDouble();
 
-        Range range1 = new Range(from1,to1);
+        Range range1 = new Range(from1, to1);
 
         System.out.printf("Длинна диапазона 1 составляет: %.3f", range1.getLength());
         System.out.printf("%nПринадлежит ли введенный элемент %.3f диапазану 1: %b%n", x, range1.isInside(x));
@@ -27,11 +28,22 @@ public class Main {
         System.out.println("Введите верхнюю границу диапазона 2: ");
         double to2 = scanner.nextDouble();
 
-        Range range2 = new Range(from2,to2);
+        Range range2 = new Range(from2, to2);
 
-        double [] crossRange; // Функция поиска пересечения выдает null если пересечения нет, или один из диапазонов полностью входит в другой
-        crossRange = range1.getCrossing(range2);
-        System.out.println("Пересечение двух диапазонов: "+Arrays.toString(crossRange));
+        // Функция поиска пересечения выдает null если пересечения нет, или один из диапазонов полностью входит в другой
+        Range crossRange = range1.crossRange(range2);
+        if (crossRange != null) {
+            System.out.println("Пересечение двух диапазонов: " + crossRange.toString());
+        } else {
+            System.out.println("Диапазоны не пересекаются или один полностью входит в другой");
+        }
+
+        Range unionRange = range1.unionRange(range2);
+        if (unionRange != null) {
+            System.out.println("Пересечение двух диапазонов: " + unionRange.toString());
+        } else {
+            System.out.println("Диапазоны не пересекаются или один полностью входит в другой");
+        }
 
     }
 }
