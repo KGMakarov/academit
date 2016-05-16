@@ -30,19 +30,19 @@ public class Main {
 
         Range range2 = new Range(from2, to2);
 
-        // Функция поиска пересечения выдает null если пересечения нет, или один из диапазонов полностью входит в другой
         Range crossRange = range1.crossRange(range2);
         if (crossRange != null) {
             System.out.println("Пересечение двух диапазонов: " + crossRange.toString());
         } else {
-            System.out.println("Диапазоны не пересекаются или один полностью входит в другой");
+            System.out.println("Диапазоны не пересекаются");
         }
 
-        Range unionRange = range1.unionRange(range2);
-        if (unionRange != null) {
-            System.out.println("Пересечение двух диапазонов: " + unionRange.toString());
-        } else {
-            System.out.println("Диапазоны не пересекаются или один полностью входит в другой");
+        Range unionRange[] = range1.unionRange(range2);
+        System.out.printf("Объединение двух диапазонов: ");
+        for (Range currentElement : unionRange) {
+            if (currentElement != null) {
+                System.out.printf("%s ", currentElement.toString());
+            }
         }
 
     }
