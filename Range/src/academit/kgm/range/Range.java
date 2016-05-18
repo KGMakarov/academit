@@ -26,42 +26,49 @@ public class Range {
         return (x >= from && x <= to);
     }
 
-    public boolean isEqual(double x, double y) {
-        double epsilon = 0.0001;
-        return (Math.abs(x - y) < epsilon);
+    private static double getMax(double x, double y) {
+        if (x > y) {
+            return x;
+        } else {
+            return y;
+        }
+    }
+
+    private static double getMin(double x, double y) {
+        if (x < y) {
+            return x;
+        } else {
+            return y;
+        }
+    }
+
+    private boolean isNonCrossing(Range range) {
+        return (range.to < from || to < range.from);
     }
 
     public Range crossRange(Range range) {
-        if (range.to < from || to < range.from) {
+        if (this.isNonCrossing(range)) {
             return null;
         } else if (range.to > to && from < range.from) {
             return new Range(range.from, to);
         } else if (from > range.from && range.to < to) {
             return new Range(from, range.to);
         } else if (from < range.from && to > range.to) {
-            return range;
+            return new Range(range.from, range.to);
         } else {
-            return this;
+            return new Range(from, to);
         }
     }
 
     public Range[] unionRange(Range range) {
-        Range[] unionRange = new Range[2];
-        if (range.to < from || to < range.from) {
-            unionRange[0] = this;
-            unionRange[1] = range;
-            return unionRange;
-        } else if ((range.to > to && from < range.from) || isEqual(range.from, to)) {
-            unionRange[0] = new Range(from, range.to);
-            return unionRange;
-        } else if ((from > range.from && range.to < to) || isEqual(from, range.to)) {
-            unionRange[0] = new Range(range.from, to);
-            return unionRange;
-        } else if (from < range.from && to > range.to) {
-            unionRange[0] = this;
+        if (this.isNonCrossing(range)) {
+            Range[] unionRange = new Range[2];
+            unionRange[0] = new Range(from, to);
+            unionRange[1] = new Range(range.from, range.to);
             return unionRange;
         } else {
-            unionRange[0] = range;
+            Range[] unionRange = new Range[1];
+            unionRange[0] = new Range(getMin(from, range.from), getMax(to, range.to));
             return unionRange;
         }
     }
