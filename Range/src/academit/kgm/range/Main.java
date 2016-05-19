@@ -45,5 +45,14 @@ public class Main {
             }
         }
 
+        Range difRange[] = range1.diffRange(range2);
+        System.out.printf("%nРазность двух диапазонов: ");
+        for (Range currentElement : difRange) {
+            if (currentElement != null) {
+                System.out.printf("%s ", currentElement.toString());
+            } else {
+                System.out.println(currentElement);
+            }
+        }
     }
 }

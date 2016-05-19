@@ -26,21 +26,6 @@ public class Range {
         return (x >= from && x <= to);
     }
 
-    private static double getMax(double x, double y) {
-        if (x > y) {
-            return x;
-        } else {
-            return y;
-        }
-    }
-
-    private static double getMin(double x, double y) {
-        if (x < y) {
-            return x;
-        } else {
-            return y;
-        }
-    }
 
     private boolean isNonCrossing(Range range) {
         return (range.to < from || to < range.from);
@@ -68,8 +53,33 @@ public class Range {
             return unionRange;
         } else {
             Range[] unionRange = new Range[1];
-            unionRange[0] = new Range(getMin(from, range.from), getMax(to, range.to));
+            unionRange[0] = new Range(Math.min(from, range.from), Math.max(to, range.to));
             return unionRange;
+        }
+    }
+
+    public Range[] diffRange(Range range) {
+        if (this.isNonCrossing(range)) {
+            Range[] diffRange = new Range[1];
+            diffRange[0] = new Range(from, to);
+            return diffRange;
+        } else if (range.from <= from && to <= range.to) {
+            Range[] diffRange = new Range[1];
+            diffRange[0] = null;
+            return diffRange;
+        } else if (from < range.from && range.to < to) {
+            Range[] diffRange = new Range[2];
+            diffRange[0] = new Range(from, range.from);
+            diffRange[1] = new Range(range.to, to);
+            return diffRange;
+        } else if (range.to > to && from < range.from) {
+            Range[] diffRange = new Range[1];
+            diffRange[0] = new Range(from, range.from);
+            return diffRange;
+        } else {
+            Range[] diffRange = new Range[1];
+            diffRange[0] = new Range(range.to, to);
+            return diffRange;
         }
     }
 
