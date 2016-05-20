@@ -64,8 +64,7 @@ public class Range {
             diffRange[0] = new Range(from, to);
             return diffRange;
         } else if (range.from <= from && to <= range.to) {
-            Range[] diffRange = new Range[1];
-            diffRange[0] = null;
+            Range[] diffRange = new Range[0];
             return diffRange;
         } else if (from < range.from && range.to < to) {
             Range[] diffRange = new Range[2];
