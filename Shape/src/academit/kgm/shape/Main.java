@@ -28,12 +28,12 @@ public class Main {
         System.out.printf("Высота треугольника: %.3f%nШирина треугольника: %.3f%nПлощадь треугольника: %.3f%n",
                 triangle.getHeight(), triangle.getWidth(), triangle.getArea());
 
-        System.out.println("Введите высоту и ширину прямоугольника: ");
-        double rectangleHeight = scanner.nextDouble();
+        System.out.println("Введите ширину и высоту прямоугольника: ");
         double rectangleWidth = scanner.nextDouble();
-        Rectangle rectangle = new Rectangle(rectangleHeight, rectangleWidth);
-        System.out.printf("Высота прямоугольника: %.3f%nШирина прямоугольника: %.3f%nПлощадь прямоугольника: %.3f%n",
-                rectangle.getHeight(), rectangle.getWidth(), rectangle.getArea());
+        double rectangleHeight = scanner.nextDouble();
+        Rectangle rectangle = new Rectangle(rectangleWidth, rectangleHeight);
+        System.out.printf("Ширина прямоугольника: %.3f%nВысота прямоугольника: %.3f%nПлощадь прямоугольника: %.3f%n",
+                rectangle.getWidth(), rectangle.getHeight(), rectangle.getArea());
 
         System.out.println("Введите радиуc окружности: ");
         double radius = scanner.nextDouble();

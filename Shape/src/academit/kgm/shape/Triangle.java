@@ -20,23 +20,19 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private static double getMax(double x, double y, double z) {
-        if (x > y && x > z) {
-            return x;
-        } else if (y > x && y > z) {
-            return y;
+    private static double getMax(double a, double b, double c) {
+        if (Math.max(a, b) > c) {
+            return Math.max(a, b);
         } else {
-            return z;
+            return c;
         }
     }
 
-    private static double getMin(double x, double y, double z) {
-        if (x < y && x < z) {
-            return x;
-        } else if (y < x && y < z) {
-            return y;
+    private static double getMin(double a, double b, double c) {
+        if (Math.min(a, b) < c) {
+            return Math.min(a, b);
         } else {
-            return z;
+            return c;
         }
     }
 
@@ -49,8 +45,7 @@ public class Triangle implements Shape {
     }
 
     public double getArea() {
-        return 0.5 * this.getHeight() * this.getWidth();
+        return 0.5 * ((this.x1 - this.x3) * (this.y2 - this.y3) - (this.x2 - this.x3) * (this.y1 - this.y3));
     }
-
 
 }
