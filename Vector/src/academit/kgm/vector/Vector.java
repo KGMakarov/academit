@@ -60,7 +60,7 @@ public class Vector {
             double[] newLeastVector = new double[second.length];
             System.arraycopy(first, 0, newLeastVector, 0, first.length);
         }
-        return
+        return newLeastVector
     }
 
     public Vector getSum(Vector vector) {
