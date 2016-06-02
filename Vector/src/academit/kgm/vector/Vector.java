@@ -9,26 +9,22 @@ public class Vector {
 
     public Vector(int n) {
         if (n <= 0) {
-            System.out.println("IllegalArgumentException");
-        } else {
-            this.vectorValue = new double[n];
+            throw new IllegalArgumentException("Размерность вектора не может быть меньше или равна 0");
         }
+        this.vectorValue = new double[n];
     }
 
     public Vector(Vector vector) {
-        this.vectorValue = vector.vectorValue;
+        this.vectorValue = new double[vector.vectorValue.length];
+        System.arraycopy(vector.vectorValue, 0, this.vectorValue, 0, vector.vectorValue.length);
     }
 
     public Vector(int n, double[] vectorValue) {
         if (n <= 0) {
-            System.out.println("IllegalArgumentException");
+            throw new IllegalArgumentException("Размерность вектора не может быть меньше или равна 0");
         } else {
             this.vectorValue = new double[n];
             System.arraycopy(vectorValue, 0, this.vectorValue, 0, vectorValue.length);
-
-            /*for (int i = 0; i < vectorValue.length; i++) {
-                this.vectorValue[i] = vectorValue[i];
-            }*/
         }
     }
 
@@ -37,33 +33,44 @@ public class Vector {
     }
 
     public String toString() {
-        String stringVector = "{";
+        StringBuilder stringVector = new StringBuilder("{");
         for (int i = 0; i < this.vectorValue.length; ++i) {
             if (i != this.vectorValue.length - 1) {
-                stringVector = stringVector + this.vectorValue[i] + ", ";
+                stringVector.append(this.vectorValue[i]).append(", ");
             } else {
-                stringVector = stringVector + this.vectorValue[i] + "}";
+                stringVector.append(this.vectorValue[i]).append("}");
             }
         }
-        return stringVector;
+        return stringVector.toString();
     }
 
     private boolean isEqualVectorsSize(double[] first, double[] second) {
         return first.length == second.length;
     }
 
-    private double[] convertLeastVector(double[] first, double[] second) {
-        if (first.length > second.length) {
-            double[] newLeastVector = new double[first.length];
-            System.arraycopy(second, 0, newLeastVector, 0, second.length);
-        } else {
-            double[] newLeastVector = new double[second.length];
-            System.arraycopy(first, 0, newLeastVector, 0, first.length);
+    private double[] convertLeastVector(double[] maxVector, double[] minVector) {
+        double[] newLeastVector = new double[maxVector.length];
+        System.arraycopy(minVector, 0, newLeastVector, 0, minVector.length);
+        return newLeastVector;
+    }
+
+    private double[] getSumFor(double[] first, double[] second) {
+        for (int i = 0; i < first.length; ++i) {
+            first[i] = first[i] + second[i];
         }
-        return newLeastVector
+        return first;
     }
 
     public Vector getSum(Vector vector) {
-        if (this.vectorValue.length)
+        if (isEqualVectorsSize(this.vectorValue, vector.vectorValue)) {
+            this.vectorValue = getSumFor(this.vectorValue, vector.vectorValue);
+        } else if (this.vectorValue.length > vector.vectorValue.length) {
+            vector.vectorValue = convertLeastVector(this.vectorValue, vector.vectorValue);
+            this.vectorValue = getSumFor(this.vectorValue, vector.vectorValue);
+        } else {
+            this.vectorValue = convertLeastVector(vector.vectorValue, this.vectorValue);
+            this.vectorValue = getSumFor(this.vectorValue, vector.vectorValue);
+        }
+        return this;
     }
 }
