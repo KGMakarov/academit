@@ -21,7 +21,11 @@ public class Main {
         Vector vector4 = new Vector(2, temp2);
         System.out.println(vector4.toString());
 
-        System.out.println(vector3.getSum(vector4).toString());
+        System.out.println(vector3.getSub(vector4).toString());
+        System.out.printf("vector.this = %s, vector = %s%n", vector3.toString(), vector4.toString());
+
+        System.out.println(vector3.getMultiplication(2).toString());
+        System.out.println(vector3.getVectorSpread().toString());
 
     }
 }
