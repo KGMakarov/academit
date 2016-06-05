@@ -1,9 +1,7 @@
 package academit.kgm.vector;
 
+import java.util.Arrays;
 
-/**
- * Created by ROCKfeller on 31.05.2016.
- */
 public class Vector {
     private double[] vectorValue;
 
@@ -50,31 +48,35 @@ public class Vector {
     }
 
     private static double[] getSumFor(double[] first, double[] second) {
-        for (int i = 0; i < Math.min(first.length, second.length); ++i) {
-            first[i] = first[i] + second[i];
+        int numberOfIteration = Math.min(first.length, second.length);
+        if (first.length >= second.length) {
+            for (int i = 0; i < numberOfIteration; ++i) {
+                first[i] = first[i] + second[i];
+            }
+            return first;
+        } else {
+            for (int i = 0; i < numberOfIteration; ++i) {
+                second[i] = second[i] + first[i];
+            }
+            return second;
         }
-        return first;
     }
 
     private static double[] getSubFor(double[] first, double[] second) {
-        for (int i = 0; i < Math.min(first.length, second.length); ++i) {
+        int numberOfIteration = Math.min(first.length, second.length);
+        for (int i = 0; i < numberOfIteration; ++i) {
             first[i] = first[i] - second[i];
         }
         return first;
     }
 
 
-    public Vector getSum(Vector vector) {
-        if (this.vectorValue.length >= vector.vectorValue.length) {
-            this.vectorValue = getSumFor(this.vectorValue, vector.vectorValue);
-        } else {
-            this.vectorValue = convertLeastVector(vector.vectorValue, this.vectorValue);
-            this.vectorValue = getSumFor(this.vectorValue, vector.vectorValue);
-        }
+    public Vector sum(Vector vector) {
+        this.vectorValue = getSumFor(this.vectorValue, vector.vectorValue);
         return this;
     }
 
-    public Vector getSub(Vector vector) {
+    public Vector sub(Vector vector) {
         if (this.vectorValue.length >= vector.vectorValue.length) {
             this.vectorValue = getSubFor(this.vectorValue, vector.vectorValue);
         } else {
@@ -84,20 +86,64 @@ public class Vector {
         return this;
     }
 
-    public Vector getMultiplication(int x) {
+    public Vector multiply(int x) {
         for (int i = 0; i < this.vectorValue.length; ++i) {
             this.vectorValue[i] = this.vectorValue[i] * x;
         }
-        /* for (double currentElement : this.vectorValue) {
-            currentElement = currentElement * x;
-        }*/
         return this;
     }
 
-    public Vector getVectorSpread (){
-        for (int i = 0; i < this.vectorValue.length; ++i) {
-            this.vectorValue[i] = this.vectorValue[i] * -1;
+    public Vector reverseVector() {
+        return multiply(-1);
+    }
+
+    public double getVectorSquare() {
+        double vectorSquareTemp = 0;
+        for (double currentElement : this.vectorValue) {
+            vectorSquareTemp += Math.pow(currentElement, 2);
         }
-        return this;
+        return Math.sqrt(vectorSquareTemp);
+    }
+
+    public double getElementOfVector(int positionNumber) {
+        return this.vectorValue[positionNumber];
+    }
+
+    public void setVectorElement(int positionNumber, double value) {
+        this.vectorValue[positionNumber] = value;
+    }
+
+    private boolean isEqualValue(double first, double second) {
+        double epsilon = 0.0001;
+        return Math.abs(first - second) < epsilon;
+    }
+
+    public boolean equals(Vector vector) {
+        if (vector == this) return true;
+        if (vector == null || vector.getClass() != this.getClass()) return false;
+        boolean a = true;
+        if (vector.vectorValue.length == this.vectorValue.length) {
+            for (int i = 0; i < this.vectorValue.length; ++i) {
+                if (!isEqualValue(this.vectorValue[i], vector.vectorValue[i])) {
+                    a = false;
+                    break;
+                }
+            }
+        } else {
+            a = false;
+        }
+        return a;
+    }
+
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Arrays.hashCode(vectorValue);
+        return hash;
+    }
+
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        double [] sum = getSumFor(vector1.vectorValue, vector2.vectorValue);
+        return new Vector(sum.length,sum);
     }
 }
