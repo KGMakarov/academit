@@ -12,10 +12,10 @@ public class Main {
         System.out.println(vector2.toString());
 
         double[] temp1 = {1, 5, 10, 88};       /** Проверка работоспособности  3го конструктора Vector(n, double [])**/
-        double[] temp2 = {1, 5};
+        double[] temp2 = {1, 5, 10, 88};
         Vector vector3 = new Vector(4, temp1);
         System.out.println(vector3.toString());
-        Vector vector4 = new Vector(2, temp2);
+        Vector vector4 = new Vector(4, temp2);
         System.out.println(vector4.toString());
 
         System.out.println(vector3.getSize()); /** Проверка getSize**/
@@ -43,10 +43,17 @@ public class Main {
         vector4.setVectorElement(1, 8.88);
         System.out.println(vector4);
 
+        double[] temp3 = {1, 5, 10, 88};       /** Создание векторов для сравнения**/
+        double[] temp4 = {1, 5, 10, 88};
+        Vector vector5 = new Vector(4, temp3);
+        System.out.println(vector3.toString());
+        Vector vector6 = new Vector(4, temp4);
+        System.out.println(vector4.toString());
+
         System.out.println("Сравнение:");
-        System.out.println(vector3);
-        System.out.println(vector4);
-        System.out.println(vector3.equals(vector4));
+        System.out.println(vector5);
+        System.out.println(vector6);
+        System.out.println(vector5.equals(vector6));
 
         System.out.printf("Сложение static:%n%s%n%s%n", vector3.toString(), vector4.toString());
         System.out.println(Vector.getSum(vector3,vector4));
