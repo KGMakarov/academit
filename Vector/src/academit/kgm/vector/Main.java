@@ -1,7 +1,6 @@
 package academit.kgm.vector;
 
 
-
 public class Main {
     public static void main(String[] args) {
         Vector vector1 = new Vector(2); /** Проверка работоспособности  1го конструктора Vector(n) и работы toString**/
@@ -33,14 +32,14 @@ public class Main {
         System.out.println(vector3.multiply(2).toString());
 
         System.out.println("Разворот:");
-        System.out.println(vector3.reverseVector().toString());
+        System.out.println(vector3.reverse().toString());
 
         System.out.println("Получение длины:");
-        System.out.println(vector4.getVectorSquare());
+        System.out.println(vector4.getLength());
 
         System.out.println("Получение и установка компоненты вектора по индексу:");
-        System.out.println(vector3.getElementOfVector(2));
-        vector4.setVectorElement(1, 8.88);
+        System.out.println(vector3.getElement(2));
+        vector4.setElement(1, 8.88);
         System.out.println(vector4);
 
         double[] temp3 = {1, 5, 10, 88};       /** Создание векторов для сравнения**/
@@ -55,10 +54,20 @@ public class Main {
         System.out.println(vector6);
         System.out.println(vector5.equals(vector6));
 
-        System.out.printf("Сложение static:%n%s%n%s%n", vector3.toString(), vector4.toString());
-        System.out.println(Vector.getSum(vector3,vector4));
+        double[] temp5 = {1, 5, 10, 88};       /** Создание векторов для сравнения**/
+        double[] temp6 = {1, 5};
+        Vector vector7 = new Vector(4, temp5);
+        Vector vector8 = new Vector(2, temp6);
 
 
+        System.out.printf("Сложение static:%n%s%n%s%n", vector7.toString(), vector8.toString());
+        System.out.println(Vector.getSum(vector7, vector8));
+
+        System.out.printf("Вычитание static:%n%s%n%s%n", vector7.toString(), vector8.toString());
+        System.out.println(Vector.getSub(vector7, vector8));
+
+        System.out.printf("Скалярное произведение static:%n%s%n", vector7.toString());
+        System.out.println(Vector.getMultiply(vector7, 2));
 
     }
 }

@@ -1,5 +1,6 @@
 package academit.kgm.vector;
 
+
 import java.util.Arrays;
 
 public class Vector {
@@ -48,26 +49,31 @@ public class Vector {
     }
 
     private static double[] getSumFor(double[] first, double[] second) {
-        int numberOfIteration = Math.min(first.length, second.length);
+        int numberOfIterations = Math.min(first.length, second.length);
+        double sumArray[] = new double[Math.max(first.length, second.length)];
         if (first.length >= second.length) {
-            for (int i = 0; i < numberOfIteration; ++i) {
-                first[i] = first[i] + second[i];
+            System.arraycopy(first, 0, sumArray, 0, first.length);
+            for (int i = 0; i < numberOfIterations; ++i) {
+                sumArray[i] = sumArray[i] + second[i];
             }
-            return first;
+            return sumArray;
         } else {
-            for (int i = 0; i < numberOfIteration; ++i) {
-                second[i] = second[i] + first[i];
+            System.arraycopy(second, 0, sumArray, 0, second.length);
+            for (int i = 0; i < numberOfIterations; ++i) {
+                sumArray[i] = sumArray[i] + first[i];
             }
-            return second;
+            return sumArray;
         }
     }
 
     private static double[] getSubFor(double[] first, double[] second) {
-        int numberOfIteration = Math.min(first.length, second.length);
-        for (int i = 0; i < numberOfIteration; ++i) {
-            first[i] = first[i] - second[i];
+        int numberOfIterations = Math.min(first.length, second.length);
+        double subArray[] = new double[Math.max(first.length, second.length)];
+        System.arraycopy(first, 0, subArray, 0, first.length);
+        for (int i = 0; i < numberOfIterations; ++i) {
+            subArray[i] = subArray[i] - second[i];
         }
-        return first;
+        return subArray;
     }
 
 
@@ -93,11 +99,11 @@ public class Vector {
         return this;
     }
 
-    public Vector reverseVector() {
+    public Vector reverse() {
         return multiply(-1);
     }
 
-    public double getVectorSquare() {
+    public double getLength() {
         double vectorSquareTemp = 0;
         for (double currentElement : this.vectorValue) {
             vectorSquareTemp += Math.pow(currentElement, 2);
@@ -105,34 +111,33 @@ public class Vector {
         return Math.sqrt(vectorSquareTemp);
     }
 
-    public double getElementOfVector(int positionNumber) {
+    public double getElement(int positionNumber) {
         return this.vectorValue[positionNumber];
     }
 
-    public void setVectorElement(int positionNumber, double value) {
+    public void setElement(int positionNumber, double value) {
         this.vectorValue[positionNumber] = value;
     }
 
-    private boolean isEqualValue(double first, double second) {
+    private static boolean isEqualValue(double first, double second) {
         double epsilon = 0.0001;
         return Math.abs(first - second) < epsilon;
     }
 
-    public boolean equals(Vector vector) {
+    public boolean equals(Object vector) {
         if (vector == this) return true;
         if (vector == null || vector.getClass() != this.getClass()) return false;
-        boolean a = true;
-        if (vector.vectorValue.length == this.vectorValue.length) {
+        Vector tempVector = (Vector) vector;
+        if (tempVector.vectorValue.length == this.vectorValue.length) {
             for (int i = 0; i < this.vectorValue.length; ++i) {
-                if (!isEqualValue(this.vectorValue[i], vector.vectorValue[i])) {
-                    a = false;
-                    break;
+                if (!isEqualValue(this.vectorValue[i], tempVector.vectorValue[i])) {
+                    return false;
                 }
             }
         } else {
-            a = false;
+            return false;
         }
-        return a;
+        return true;
     }
 
     public int hashCode() {
@@ -143,7 +148,27 @@ public class Vector {
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        double [] sum = getSumFor(vector1.vectorValue, vector2.vectorValue);
-        return new Vector(sum.length,sum);
+        double[] sum = getSumFor(vector1.vectorValue, vector2.vectorValue);
+        return new Vector(sum.length, sum);
+    }
+
+    public static Vector getSub(Vector vector1, Vector vector2) {
+        double[] sub;
+        if (vector1.vectorValue.length >= vector2.vectorValue.length) {
+            sub = getSubFor(vector1.vectorValue, vector2.vectorValue);
+        } else {
+            sub = convertLeastVector(vector2.vectorValue, vector1.vectorValue);
+            sub = getSubFor(sub, vector2.vectorValue);
+        }
+        return new Vector(sub.length, sub);
+
+    }
+
+    public static Vector getMultiply(Vector vector, double x) {
+        double multiplyVector[] = new double[vector.vectorValue.length];
+        for (int i = 0; i < vector.vectorValue.length; ++i) {
+            multiplyVector[i] = vector.vectorValue[i] * x;
+        }
+        return new Vector(multiplyVector.length, multiplyVector);
     }
 }
