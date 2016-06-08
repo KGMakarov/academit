@@ -22,7 +22,15 @@ public class Vector {
         if (size <= 0) {
             throw new IllegalArgumentException("Размерность вектора не может быть меньше или равна 0");
         }
+        if (size < vectorValue.length) {
+            throw new IllegalArgumentException("Размерность вектора должна быть больше, либо равна рамерности передаваемого массива");
+        }
         this.vectorValue = new double[size];
+        System.arraycopy(vectorValue, 0, this.vectorValue, 0, vectorValue.length);
+    }
+
+    public Vector(double[] vectorValue) {
+        this.vectorValue = new double[vectorValue.length];
         System.arraycopy(vectorValue, 0, this.vectorValue, 0, vectorValue.length);
     }
 
@@ -50,20 +58,12 @@ public class Vector {
 
     private static double[] getSumFor(double[] first, double[] second) {
         int numberOfIterations = Math.min(first.length, second.length);
-        double sumArray[] = new double[Math.max(first.length, second.length)];
-        if (first.length >= second.length) {
-            System.arraycopy(first, 0, sumArray, 0, first.length);
-            for (int i = 0; i < numberOfIterations; ++i) {
-                sumArray[i] = sumArray[i] + second[i];
-            }
-            return sumArray;
-        } else {
-            System.arraycopy(second, 0, sumArray, 0, second.length);
-            for (int i = 0; i < numberOfIterations; ++i) {
-                sumArray[i] = sumArray[i] + first[i];
-            }
-            return sumArray;
+        double sumArray[] = (first.length >= second.length) ? first : second;
+        double currentArray[] = (first.length >= second.length) ? second : first;
+        for (int i = 0; i < numberOfIterations; ++i) {
+            sumArray[i] = sumArray[i] + currentArray[i];
         }
+        return sumArray;
     }
 
     private static double[] getSubFor(double[] first, double[] second) {
@@ -128,14 +128,11 @@ public class Vector {
         if (vector == this) return true;
         if (vector == null || vector.getClass() != this.getClass()) return false;
         Vector tempVector = (Vector) vector;
-        if (tempVector.vectorValue.length == this.vectorValue.length) {
-            for (int i = 0; i < this.vectorValue.length; ++i) {
-                if (!isEqualValue(this.vectorValue[i], tempVector.vectorValue[i])) {
-                    return false;
-                }
+        if (tempVector.vectorValue.length != this.vectorValue.length) return false;
+        for (int i = 0; i < this.vectorValue.length; ++i) {
+            if (!isEqualValue(this.vectorValue[i], tempVector.vectorValue[i])) {
+                return false;
             }
-        } else {
-            return false;
         }
         return true;
     }

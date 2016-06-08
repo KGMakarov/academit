@@ -17,6 +17,11 @@ public class Main {
         Vector vector4 = new Vector(4, temp2);
         System.out.println(vector4.toString());
 
+        double[] temp77 = {7, 7, 7, 7};
+        Vector vector77 = new Vector(temp77);
+        System.out.println(vector77.toString());
+
+
         System.out.println(vector3.getSize()); /** Проверка getSize**/
 
         System.out.printf("Сложение:%n%s%n%s%n", vector3.toString(), vector4.toString());
