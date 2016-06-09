@@ -22,16 +22,17 @@ public class Vector {
         if (size <= 0) {
             throw new IllegalArgumentException("Размерность вектора не может быть меньше или равна 0");
         }
-        if (size < vectorValue.length) {
-            throw new IllegalArgumentException("Размерность вектора должна быть больше, либо равна рамерности передаваемого массива");
+        double[] newVectorValue = new double[size];
+        if (size <= vectorValue.length) {
+            System.arraycopy(vectorValue, 0, newVectorValue, 0, size);
+        } else {
+            System.arraycopy(vectorValue, 0, newVectorValue, 0, vectorValue.length);
         }
-        this.vectorValue = new double[size];
-        System.arraycopy(vectorValue, 0, this.vectorValue, 0, vectorValue.length);
+        this.vectorValue = newVectorValue;
     }
 
     public Vector(double[] vectorValue) {
-        this.vectorValue = new double[vectorValue.length];
-        System.arraycopy(vectorValue, 0, this.vectorValue, 0, vectorValue.length);
+        this.vectorValue = new Vector(vectorValue.length, vectorValue).vectorValue;
     }
 
     public int getSize() {
@@ -58,8 +59,8 @@ public class Vector {
 
     private static double[] getSumFor(double[] first, double[] second) {
         int numberOfIterations = Math.min(first.length, second.length);
-        double sumArray[] = (first.length >= second.length) ? first : second;
-        double currentArray[] = (first.length >= second.length) ? second : first;
+        double[] sumArray = (first.length >= second.length) ? first : second;
+        double[] currentArray = (first.length >= second.length) ? second : first;
         for (int i = 0; i < numberOfIterations; ++i) {
             sumArray[i] = sumArray[i] + currentArray[i];
         }
@@ -68,7 +69,7 @@ public class Vector {
 
     private static double[] getSubFor(double[] first, double[] second) {
         int numberOfIterations = Math.min(first.length, second.length);
-        double subArray[] = new double[Math.max(first.length, second.length)];
+        double[] subArray = new double[Math.max(first.length, second.length)];
         System.arraycopy(first, 0, subArray, 0, first.length);
         for (int i = 0; i < numberOfIterations; ++i) {
             subArray[i] = subArray[i] - second[i];
@@ -92,7 +93,7 @@ public class Vector {
         return this;
     }
 
-    public Vector multiply(int x) {
+    public Vector multiply(double x) {
         for (int i = 0; i < this.vectorValue.length; ++i) {
             this.vectorValue[i] = this.vectorValue[i] * x;
         }
@@ -150,22 +151,15 @@ public class Vector {
     }
 
     public static Vector getSub(Vector vector1, Vector vector2) {
-        double[] sub;
-        if (vector1.vectorValue.length >= vector2.vectorValue.length) {
-            sub = getSubFor(vector1.vectorValue, vector2.vectorValue);
-        } else {
-            sub = convertLeastVector(vector2.vectorValue, vector1.vectorValue);
-            sub = getSubFor(sub, vector2.vectorValue);
-        }
-        return new Vector(sub.length, sub);
+        Vector tempVector = vector1;
+        tempVector = tempVector.sub(vector2);
+        return new Vector(tempVector.vectorValue.length, tempVector.vectorValue);
 
     }
 
     public static Vector getMultiply(Vector vector, double x) {
-        double multiplyVector[] = new double[vector.vectorValue.length];
-        for (int i = 0; i < vector.vectorValue.length; ++i) {
-            multiplyVector[i] = vector.vectorValue[i] * x;
-        }
-        return new Vector(multiplyVector.length, multiplyVector);
+        Vector tempVector = vector;
+        tempVector = tempVector.multiply(x);
+        return new Vector(tempVector.vectorValue.length, tempVector.vectorValue);
     }
 }

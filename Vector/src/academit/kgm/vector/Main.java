@@ -14,7 +14,7 @@ public class Main {
         double[] temp2 = {1, 5, 10, 88};
         Vector vector3 = new Vector(4, temp1);
         System.out.println(vector3.toString());
-        Vector vector4 = new Vector(4, temp2);
+        Vector vector4 = new Vector(6, temp2);
         System.out.println(vector4.toString());
 
         double[] temp77 = {7, 7, 7, 7};
@@ -59,10 +59,10 @@ public class Main {
         System.out.println(vector6);
         System.out.println(vector5.equals(vector6));
 
-        double[] temp5 = {1, 5, 10, 88};       /** Создание векторов для сравнения**/
-        double[] temp6 = {1, 5};
-        Vector vector7 = new Vector(4, temp5);
-        Vector vector8 = new Vector(2, temp6);
+        double[] temp5 = {1, 5};       /** Создание векторов для сравнения**/
+        double[] temp6 = {1, 5, 8};
+        Vector vector7 = new Vector(2, temp5);
+        Vector vector8 = new Vector(3, temp6);
 
 
         System.out.printf("Сложение static:%n%s%n%s%n", vector7.toString(), vector8.toString());
