@@ -17,7 +17,7 @@ public class Main {
         Vector vector4 = new Vector(6, temp2);
         System.out.println(vector4.toString());
 
-        double[] temp77 = {7, 7, 7, 7};
+        double[] temp77 = {7, 7, 7, 7, 5, 5};
         Vector vector77 = new Vector(temp77);
         System.out.println(vector77.toString());
 

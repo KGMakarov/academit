@@ -23,16 +23,13 @@ public class Vector {
             throw new IllegalArgumentException("Размерность вектора не может быть меньше или равна 0");
         }
         double[] newVectorValue = new double[size];
-        if (size <= vectorValue.length) {
-            System.arraycopy(vectorValue, 0, newVectorValue, 0, size);
-        } else {
-            System.arraycopy(vectorValue, 0, newVectorValue, 0, vectorValue.length);
-        }
+        int countOfCopySymbols = Math.min(size, vectorValue.length);
+        System.arraycopy(vectorValue, 0, newVectorValue, 0, countOfCopySymbols);
         this.vectorValue = newVectorValue;
     }
 
     public Vector(double[] vectorValue) {
-        this.vectorValue = new Vector(vectorValue.length, vectorValue).vectorValue;
+        this(vectorValue.length, vectorValue);
     }
 
     public int getSize() {
@@ -59,8 +56,15 @@ public class Vector {
 
     private static double[] getSumFor(double[] first, double[] second) {
         int numberOfIterations = Math.min(first.length, second.length);
-        double[] sumArray = (first.length >= second.length) ? first : second;
-        double[] currentArray = (first.length >= second.length) ? second : first;
+        double[] sumArray = new double[Math.max(first.length, second.length)];
+        double[] currentArray = new double[Math.min(first.length, second.length)];
+        if (first.length >= second.length) {
+            System.arraycopy(first, 0, sumArray, 0, first.length);
+            System.arraycopy(second, 0, currentArray, 0, second.length);
+        } else {
+            System.arraycopy(second, 0, sumArray, 0, second.length);
+            System.arraycopy(first, 0, currentArray, 0, first.length);
+        }
         for (int i = 0; i < numberOfIterations; ++i) {
             sumArray[i] = sumArray[i] + currentArray[i];
         }
@@ -146,20 +150,21 @@ public class Vector {
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        double[] sum = getSumFor(vector1.vectorValue, vector2.vectorValue);
-        return new Vector(sum.length, sum);
+        Vector tempVector = new Vector(vector1);
+        tempVector = tempVector.sum(vector2);
+        return new Vector(tempVector);
     }
 
     public static Vector getSub(Vector vector1, Vector vector2) {
-        Vector tempVector = vector1;
+        Vector tempVector = new Vector(vector1);
         tempVector = tempVector.sub(vector2);
-        return new Vector(tempVector.vectorValue.length, tempVector.vectorValue);
+        return new Vector(tempVector);
 
     }
 
     public static Vector getMultiply(Vector vector, double x) {
-        Vector tempVector = vector;
+        Vector tempVector = new Vector(vector);
         tempVector = tempVector.multiply(x);
-        return new Vector(tempVector.vectorValue.length, tempVector.vectorValue);
+        return new Vector(tempVector);
     }
 }
