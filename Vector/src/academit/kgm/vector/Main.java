@@ -14,13 +14,12 @@ public class Main {
         double[] temp2 = {1, 5, 10, 88};
         Vector vector3 = new Vector(4, temp1);
         System.out.println(vector3.toString());
-        Vector vector4 = new Vector(6, temp2);
+        Vector vector4 = new Vector(4, temp2);
         System.out.println(vector4.toString());
 
         double[] temp77 = {7, 7, 7, 7, 5, 5};
         Vector vector77 = new Vector(temp77);
         System.out.println(vector77.toString());
-
 
         System.out.println(vector3.getSize()); /** Проверка getSize**/
 
@@ -73,6 +72,9 @@ public class Main {
 
         System.out.printf("Скалярное произведение static:%n%s%n", vector7.toString());
         System.out.println(Vector.getMultiply(vector7, 2));
+
+        System.out.printf("Скалярное произведение векторов static:%n%s%n%s%n", vector7.toString(), vector8.toString());
+        System.out.println(Vector.getVectorMultiply(vector7, vector8));
 
     }
 }

@@ -38,35 +38,28 @@ public class Vector {
 
     public String toString() {
         StringBuilder stringVector = new StringBuilder("{");
-        for (int i = 0; i < this.vectorValue.length; ++i) {
-            if (i != this.vectorValue.length - 1) {
+        for (int i = 0; i < this.vectorValue.length - 1; ++i) {
                 stringVector.append(this.vectorValue[i]).append(", ");
-            } else {
-                stringVector.append(this.vectorValue[i]).append("}");
             }
-        }
+        stringVector.append(this.vectorValue[this.vectorValue.length - 1]).append("}");
         return stringVector.toString();
     }
 
-    private static double[] convertLeastVector(double[] maxVector, double[] minVector) {
-        double[] newLeastVector = new double[maxVector.length];
-        System.arraycopy(minVector, 0, newLeastVector, 0, minVector.length);
-        return newLeastVector;
+    private static double[] extendVector(double[] minVector, int requiredLength) {
+        if (minVector.length >= requiredLength) {
+            return minVector;
+        }
+        double[] newExtendVector = new double[requiredLength];
+        System.arraycopy(minVector, 0, newExtendVector, 0, minVector.length);
+        return newExtendVector;
     }
 
     private static double[] getSumFor(double[] first, double[] second) {
-        int numberOfIterations = Math.min(first.length, second.length);
-        double[] sumArray = new double[Math.max(first.length, second.length)];
-        double[] currentArray = new double[Math.min(first.length, second.length)];
-        if (first.length >= second.length) {
-            System.arraycopy(first, 0, sumArray, 0, first.length);
-            System.arraycopy(second, 0, currentArray, 0, second.length);
-        } else {
-            System.arraycopy(second, 0, sumArray, 0, second.length);
-            System.arraycopy(first, 0, currentArray, 0, first.length);
-        }
-        for (int i = 0; i < numberOfIterations; ++i) {
-            sumArray[i] = sumArray[i] + currentArray[i];
+        int requiredLength = Math.max(first.length, second.length);
+        double[] sumArray = extendVector(first, requiredLength);
+        int countOfIteration = Math.min(sumArray.length, second.length);
+        for (int i = 0; i < countOfIteration; ++i) {
+            sumArray[i] = sumArray[i] + second[i];
         }
         return sumArray;
     }
@@ -88,12 +81,9 @@ public class Vector {
     }
 
     public Vector sub(Vector vector) {
-        if (this.vectorValue.length >= vector.vectorValue.length) {
-            this.vectorValue = getSubFor(this.vectorValue, vector.vectorValue);
-        } else {
-            this.vectorValue = convertLeastVector(vector.vectorValue, this.vectorValue);
-            this.vectorValue = getSubFor(this.vectorValue, vector.vectorValue);
-        }
+        int requiredLength = Math.max(this.vectorValue.length, vector.vectorValue.length);
+        this.vectorValue = extendVector(this.vectorValue, requiredLength);
+        this.vectorValue = getSubFor(this.vectorValue, vector.vectorValue);
         return this;
     }
 
@@ -152,19 +142,28 @@ public class Vector {
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector tempVector = new Vector(vector1);
         tempVector = tempVector.sum(vector2);
-        return new Vector(tempVector);
+        return tempVector;
     }
 
     public static Vector getSub(Vector vector1, Vector vector2) {
         Vector tempVector = new Vector(vector1);
         tempVector = tempVector.sub(vector2);
-        return new Vector(tempVector);
+        return tempVector;
 
     }
 
     public static Vector getMultiply(Vector vector, double x) {
         Vector tempVector = new Vector(vector);
         tempVector = tempVector.multiply(x);
-        return new Vector(tempVector);
+        return tempVector;
+    }
+
+    public static double getVectorMultiply(Vector vector1, Vector vector2) {
+        double vectorMultiply = 0;
+        int countOfIteration = Math.min(vector1.vectorValue.length, vector2.vectorValue.length);
+        for (int i = 0; i < countOfIteration; ++i) {
+            vectorMultiply = vectorMultiply + (vector1.vectorValue[i] * vector2.vectorValue[i]);
+        }
+        return vectorMultiply;
     }
 }
