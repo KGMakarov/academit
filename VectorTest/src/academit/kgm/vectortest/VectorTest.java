@@ -9,7 +9,7 @@ public class VectorTest {
     private Vector testVector2;
 
     @org.junit.Before
-    public void SetUp() throws Exception {
+    public void setUp() throws Exception {
         double[] temp1 = {5, 5, 5, 5, 5};
         double[] temp2 = {1, 6, 3};
         testVector1 = new Vector(temp1);
@@ -31,7 +31,7 @@ public class VectorTest {
     public void testSum() throws Exception {
         Vector sourceVector2 = new Vector(testVector2);
         Vector currentVector2 = new Vector(testVector2);
-        double testRes[] = {6, 11, 8, 5, 5};
+        double[] testRes = {6, 11, 8, 5, 5};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, testVector1.sum(currentVector2));
         Assert.assertEquals(sourceVector2, currentVector2);
@@ -41,7 +41,7 @@ public class VectorTest {
     public void testSub() throws Exception {
         Vector sourceVector2 = new Vector(testVector2);
         Vector currentVector2 = new Vector(testVector2);
-        double testRes[] = {4, -1, 2, 5, 5};
+        double[] testRes = {4, -1, 2, 5, 5};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, testVector1.sub(currentVector2));
         Assert.assertEquals(sourceVector2, currentVector2);
@@ -49,14 +49,14 @@ public class VectorTest {
 
     @org.junit.Test
     public void testMultiply() throws Exception {
-        double testRes[] = {-10, -10, -10, -10, -10};
+        double[] testRes = {-10, -10, -10, -10, -10};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, testVector1.multiply(-2));
     }
 
     @org.junit.Test
     public void testReverse() throws Exception {
-        double testRes[] = {-5, -5, -5, -5, -5};
+        double[] testRes = {-5, -5, -5, -5, -5};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, testVector1.reverse());
     }
@@ -100,7 +100,7 @@ public class VectorTest {
         Vector currentVector1 = new Vector(testVector1);
         Vector sourceVector2 = new Vector(testVector2);
         Vector currentVector2 = new Vector(testVector2);
-        double testRes[] = {6, 11, 8, 5, 5};
+        double[] testRes = {6, 11, 8, 5, 5};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, Vector.getSum(currentVector1, currentVector2));
         Assert.assertEquals(sourceVector1, currentVector1);
@@ -113,7 +113,7 @@ public class VectorTest {
         Vector currentVector1 = new Vector(testVector1);
         Vector sourceVector2 = new Vector(testVector2);
         Vector currentVector2 = new Vector(testVector2);
-        double testRes[] = {4, -1, 2, 5, 5};
+        double[] testRes = {4, -1, 2, 5, 5};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, Vector.getSub(currentVector1, currentVector2));
         Assert.assertEquals(sourceVector1, currentVector1);
@@ -124,7 +124,7 @@ public class VectorTest {
     public void testGetMultiply() throws Exception {
         Vector sourceVector1 = new Vector(testVector1);
         Vector currentVector1 = new Vector(testVector1);
-        double testRes[] = {10, 10, 10, 10, 10};
+        double[] testRes = {10, 10, 10, 10, 10};
         Vector testVectorResult = new Vector(testRes);
         Assert.assertEquals(testVectorResult, Vector.getMultiply(currentVector1, 2));
         Assert.assertEquals(sourceVector1, currentVector1);
