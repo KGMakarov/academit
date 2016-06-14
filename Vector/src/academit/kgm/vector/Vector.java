@@ -39,8 +39,8 @@ public class Vector {
     public String toString() {
         StringBuilder stringVector = new StringBuilder("{");
         for (int i = 0; i < this.vectorValue.length - 1; ++i) {
-                stringVector.append(this.vectorValue[i]).append(", ");
-            }
+            stringVector.append(this.vectorValue[i]).append(", ");
+        }
         stringVector.append(this.vectorValue[this.vectorValue.length - 1]).append("}");
         return stringVector.toString();
     }
