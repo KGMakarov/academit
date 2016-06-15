@@ -18,6 +18,10 @@ public class Vector {
         System.arraycopy(vector.vectorValue, 0, this.vectorValue, 0, vector.vectorValue.length);
     }
 
+    public Vector(int size, Vector vector) {
+        this(size, vector.vectorValue);
+    }
+
     public Vector(int size, double[] vectorValue) {
         if (size <= 0) {
             throw new IllegalArgumentException("Размерность вектора не может быть меньше или равна 0");
