@@ -7,8 +7,11 @@ public class Matrix {
     private Vector[] matrixValue;
 
     public Matrix(int lines, int columns) {
-        if (lines <= 0 || columns <= 0) {
-            throw new IllegalArgumentException("Размерность матрицы не может быть меньше или равна 0");
+        if (lines <= 0) {
+            throw new IllegalArgumentException("Колличество строк матрицы не может быть меньше или равно 0");
+        }
+        if (columns <= 0) {
+            throw new IllegalArgumentException("Колличество столбцов матрицы не может быть меньше или равно 0");
         }
         this.matrixValue = new Vector[lines];
         for (int i = 0; i < lines; ++i) {
@@ -17,10 +20,7 @@ public class Matrix {
     }
 
     public Matrix(Matrix matrix) {
-        this.matrixValue = new Vector[matrix.matrixValue.length];
-        for (int i = 0; i < matrixValue.length; ++i) {
-            this.matrixValue[i] = new Vector(matrix.matrixValue[i]);
-        }
+        this(matrix.matrixValue);
     }
 
     public Matrix(double[][] matrixArray) {
@@ -37,10 +37,55 @@ public class Matrix {
     }
 
     public Matrix(Vector[] vectorArray) {
+        int maxLengthOfVector = 0;
+        for (Vector currentElement : vectorArray) {
+            if (currentElement.getSize() > maxLengthOfVector) {
+                maxLengthOfVector = currentElement.getSize();
+            }
+        }
         this.matrixValue = new Vector[vectorArray.length];
         for (int i = 0; i < matrixValue.length; ++i) {
-            this.matrixValue[i] = new Vector(vectorArray[i]);
+            this.matrixValue[i] = new Vector(maxLengthOfVector, vectorArray[i]);
         }
+    }
+
+    public int[] getSize() {
+        int[] matrixSize = new int[2];
+        matrixSize[0] = this.matrixValue.length;
+        matrixSize[1] = this.matrixValue[1].getSize();
+        return matrixSize;
+    }
+
+    public Vector getLine(int lineNumber) {
+        if (lineNumber < 0) {
+            throw new IllegalArgumentException("Номер запрашиваемой строки не долен быть меньше 0");
+        }
+        if (lineNumber > this.matrixValue.length) {
+            throw new ArrayIndexOutOfBoundsException("Номер запрашиваемой строки больше размерности матрицы");
+        }
+        return this.matrixValue[lineNumber];
+    }
+
+    public void setMatrixLine(int lineNumber, Vector vector) {
+        this.matrixValue[lineNumber] = new Vector(this.matrixValue[lineNumber].getSize(), vector);
+    }
+
+    public double[] getColumn(int numberOfColumn) {
+        double[] requiredColumn = new double[this.matrixValue.length];
+        for (int i = 0; i < requiredColumn.length; ++i) {
+            requiredColumn[i] = this.matrixValue[i].getElement(numberOfColumn);
+        }
+        return requiredColumn;
+    }
+
+    public Matrix transMatrix() {
+        Matrix transMatrix = new Matrix(this.matrixValue[0].getSize(), this.matrixValue.length);
+        for (int i = 0; i < this.matrixValue.length; ++i) {
+            for (int j = 0; j < this.matrixValue[i].getSize(); ++j) {
+                transMatrix.matrixValue[j].setElement(i, this.matrixValue[i].getElement(j));
+            }
+        }
+        return transMatrix;
     }
 
 
