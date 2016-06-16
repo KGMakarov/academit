@@ -25,11 +25,13 @@ public class Main {
         Vector v1 = new Vector(temp4);
         System.out.println(x4.toString());
         System.out.println(Arrays.toString(x4.getSize()));
-        System.out.println(x4.getLine(0).toString());
-        x4.setMatrixLine(0, v1);
+        System.out.println(x4.getRow(0).toString());
+        x4.setMatrixRow(0, v1);
         System.out.println(x4.toString());
 
-        System.out.println(Arrays.toString(x4.getColumn(4)));
+        System.out.println();
+
+        System.out.println(x4.getColumn(2).toString());
 
         double[] temp5 = {5, 8, 81};
         double[] temp6 = {5, 81, 5, 99, 99};
