@@ -49,11 +49,16 @@ public class Matrix {
         }
     }
 
-    public int[] getSize() {
-        int[] matrixSize = new int[2];
-        matrixSize[0] = this.matrixRows.length;
-        matrixSize[1] = this.matrixRows[1].getSize();
-        return matrixSize;
+    public Dimension getSize() {
+        return new Dimension(this.matrixRows.length, this.matrixRows[0].getSize());
+    }
+
+    public int getNumberOfRows() {
+        return getSize().getRows();
+    }
+
+    public int getNumberOfColumns() {
+        return getSize().getColumns();
     }
 
     public Vector getRow(int rowNumber) {
@@ -88,7 +93,7 @@ public class Matrix {
         Vector[] transMatrix = new Vector[this.matrixRows[0].getSize()];
         for (int i = 0; i < transMatrix.length; ++i) {
             transMatrix[i] = this.getColumn(i);
-            /*for (int j = 0; j < this.matrixRows[i].getSize(); ++j) {
+           /* for (int j = 0; j < this.matrixRows[i].getSize(); ++j) {
                 transMatrix[j].setElement(i, this.matrixRows[i].getElement(j));
             }*/
         }

@@ -3,7 +3,6 @@ package academit.kgm.matrix;
 
 import academit.kgm.vector.Vector;
 
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +23,9 @@ public class Main {
         Matrix x4 = new Matrix(vectorArray);
         Vector v1 = new Vector(temp4);
         System.out.println(x4.toString());
-        System.out.println(Arrays.toString(x4.getSize()));
+        System.out.println(x4.getNumberOfRows());
+        System.out.println(x4.getNumberOfColumns());
+        System.out.println(x4.getSize().toString());
         System.out.println(x4.getRow(0).toString());
         x4.setMatrixRow(0, v1);
         System.out.println(x4.toString());
