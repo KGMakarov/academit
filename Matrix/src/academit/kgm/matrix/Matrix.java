@@ -65,24 +65,24 @@ public class Matrix {
         if (rowNumber < 0) {
             throw new IllegalArgumentException("Номер запрашиваемой строки не долен быть меньше 0");
         }
-        if (rowNumber >= this.matrixRows.length) {
+        if (rowNumber >= this.getNumberOfRows()) {
             throw new ArrayIndexOutOfBoundsException("Номер запрашиваемой строки больше размерности матрицы");
         }
         return this.matrixRows[rowNumber];
     }
 
     public void setMatrixRow(int rowNumber, Vector vector) {
-        this.matrixRows[rowNumber] = new Vector(this.matrixRows[rowNumber].getSize(), vector);
+        this.matrixRows[rowNumber] = new Vector(this.getNumberOfColumns(), vector);
     }
 
     public Vector getColumn(int numberOfColumn) {
         if (numberOfColumn < 0) {
             throw new IllegalArgumentException("Номера запрашиваемого столбца не должен быть меньше 0");
         }
-        if (numberOfColumn >= this.matrixRows[0].getSize()) {
+        if (numberOfColumn >= this.getNumberOfColumns()) {
             throw new ArrayIndexOutOfBoundsException("Номер запрашиваемого столбца больше размерности матрицы");
         }
-        double[] requiredColumn = new double[this.matrixRows.length];
+        double[] requiredColumn = new double[this.getNumberOfRows()];
         for (int i = 0; i < requiredColumn.length; ++i) {
             requiredColumn[i] = this.matrixRows[i].getElement(numberOfColumn);
         }
@@ -90,12 +90,9 @@ public class Matrix {
     }
 
     public Matrix transMatrix() {
-        Vector[] transMatrix = new Vector[this.matrixRows[0].getSize()];
+        Vector[] transMatrix = new Vector[this.getNumberOfColumns()];
         for (int i = 0; i < transMatrix.length; ++i) {
             transMatrix[i] = this.getColumn(i);
-           /* for (int j = 0; j < this.matrixRows[i].getSize(); ++j) {
-                transMatrix[j].setElement(i, this.matrixRows[i].getElement(j));
-            }*/
         }
         this.matrixRows = transMatrix;
         return this;

@@ -19,6 +19,6 @@ public class Dimension {
     }
 
     public String toString() {
-        return "" + this.rows + " x " + this.columns;
+        return String.format("%d x %d", this.rows, this.columns);
     }
 }
