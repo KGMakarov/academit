@@ -43,6 +43,18 @@ public class Main {
         System.out.println(x5.toString());
         System.out.println(x5.transMatrix().toString());
 
+        System.out.println(x5.multiply(2).toString());
+
+        double[] det0 = {2, -3, 4, 1};
+        double[] det1 = {4, 0, 3, 2};
+        double[] det2 = {-4, 1, 2, -2};
+        double[] det3 = {3, -1, 4, 3};
+        Vector[] vectorDet = {new Vector(det0), new Vector(det1), new Vector(det2), new Vector(det3)};
+        Matrix matrix1 = new Matrix(vectorDet);
+        double x = matrix1.getDet();
+        System.out.println(x);
+        System.out.println(matrix1.toString());
+
 
     }
 }

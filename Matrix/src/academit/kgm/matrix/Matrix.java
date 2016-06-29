@@ -107,4 +107,48 @@ public class Matrix {
         stringMatrix.append(this.matrixRows[this.matrixRows.length - 1].toString()).append("}");
         return stringMatrix.toString();
     }
+
+    public Matrix multiply (double x){
+        for (int i = 0; i < this.matrixRows.length; ++i){
+            this.matrixRows[i] = this.matrixRows[i].multiply(x);
+        }
+        return this;
+    }
+
+    public boolean isEqual(double x1, double x2) {
+        final double EPSILON = 0.0001;
+        return Math.abs(x1 - x2) < EPSILON;
+    }
+
+    public double getDet() {
+        double matrixDet = 1;
+        int countOfLineTransposition = 0;
+
+        for (int i = 0; i < this.matrixRows.length - 1; ++i) {
+            if (isEqual(this.matrixRows[i].getElement(i), 0)) {
+                for (int k = i + 1; k < this.matrixRows.length; ++k) {
+                    if (!isEqual(this.matrixRows[k].getElement(i), 0)) {
+                        Vector tempVector = new Vector(this.matrixRows[k]);
+                        this.matrixRows[k] = this.matrixRows[i];
+                        this.matrixRows[i] = tempVector;
+                        countOfLineTransposition += 1;
+                        break;
+                    }
+                }
+            }
+            for (int j = i + 1; j < this.matrixRows.length; ++j) {
+                if (!isEqual(this.matrixRows[j].getElement(i), 0)) {
+                    double k = this.matrixRows[j].getElement(i) / this.matrixRows[i].getElement(i);
+                    Vector kVector = Vector.getMultiply(this.matrixRows[i], k);
+                    this.matrixRows[j].sub(kVector);
+                }
+            }
+        }
+
+        for (int i = 0; i < this.matrixRows.length; ++i) {
+            matrixDet = matrixDet * this.matrixRows[i].getElement(i);
+
+        }
+        return matrixDet * Math.pow(-1, countOfLineTransposition);
+    }
 }
