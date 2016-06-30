@@ -27,7 +27,7 @@ public class Main {
         System.out.println(x4.getNumberOfColumns());
         System.out.println(x4.getSize().toString());
         System.out.println(x4.getRow(0).toString());
-        x4.setMatrixRow(0, v1);
+        x4.setRow(0, v1);
         System.out.println(x4.toString());
 
         System.out.println();
@@ -55,6 +55,19 @@ public class Main {
         System.out.println(x);
         System.out.println(matrix1.toString());
 
+        double[] arrayForMatrix1 = {2, -1, 3};
+        double[] arrayForMatrix2 = {0, 4, -2};
+        double[] arrayForVector = {1, -3, 2};
+        Vector vectorForMultiply = new Vector(arrayForVector);
+        Vector[] vectorArrayForMatrix = {new Vector(arrayForMatrix1), new Vector(arrayForMatrix2)};
+        Matrix matrixForMultiply = new Matrix(vectorArrayForMatrix);
+        System.out.println(matrixForMultiply.vectorMultiply(vectorForMultiply).toString());
+
+        Matrix forSumMatrix1 = new Matrix(4, 4);
+        Matrix forSumMatrix2 = new Matrix(matrix1);
+        System.out.println(forSumMatrix1.sum(forSumMatrix2).toString());
+
+        System.out.println(forSumMatrix1.sub(forSumMatrix2).toString());
 
     }
 }

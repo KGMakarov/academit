@@ -50,15 +50,15 @@ public class Matrix {
     }
 
     public Dimension getSize() {
-        return new Dimension(this.matrixRows.length, this.matrixRows[0].getSize());
+        return new Dimension(this.getNumberOfRows(), this.getNumberOfColumns());
     }
 
     public int getNumberOfRows() {
-        return getSize().getRows();
+        return this.matrixRows.length;
     }
 
     public int getNumberOfColumns() {
-        return getSize().getColumns();
+        return this.matrixRows[0].getSize();
     }
 
     public Vector getRow(int rowNumber) {
@@ -68,10 +68,16 @@ public class Matrix {
         if (rowNumber >= this.getNumberOfRows()) {
             throw new ArrayIndexOutOfBoundsException("Номер запрашиваемой строки больше размерности матрицы");
         }
-        return this.matrixRows[rowNumber];
+        return new Vector(this.matrixRows[rowNumber]);
     }
 
-    public void setMatrixRow(int rowNumber, Vector vector) {
+    public void setRow(int rowNumber, Vector vector) {
+        if (rowNumber < 0) {
+            throw new IllegalArgumentException("Номер зменяемой строки не долен быть меньше 0");
+        }
+        if (rowNumber >= this.getNumberOfRows()) {
+            throw new ArrayIndexOutOfBoundsException("Номер изменяемой строки больше размерности матрицы");
+        }
         this.matrixRows[rowNumber] = new Vector(this.getNumberOfColumns(), vector);
     }
 
@@ -108,19 +114,22 @@ public class Matrix {
         return stringMatrix.toString();
     }
 
-    public Matrix multiply (double x){
-        for (int i = 0; i < this.matrixRows.length; ++i){
+    public Matrix multiply(double x) {
+        for (int i = 0; i < this.matrixRows.length; ++i) {
             this.matrixRows[i] = this.matrixRows[i].multiply(x);
         }
         return this;
     }
 
-    public boolean isEqual(double x1, double x2) {
+    private static boolean isEqual(double x1, double x2) {
         final double EPSILON = 0.0001;
         return Math.abs(x1 - x2) < EPSILON;
     }
 
     public double getDet() {
+        if (this.getNumberOfRows() != this.getNumberOfColumns()) {
+            throw new IllegalArgumentException("Определитель может рассчитываться только для квадратной матрицы");
+        }
         double matrixDet = 1;
         int countOfLineTransposition = 0;
 
@@ -151,4 +160,46 @@ public class Matrix {
         }
         return matrixDet * Math.pow(-1, countOfLineTransposition);
     }
+
+    public Matrix vectorMultiply(Vector vector) {
+        if (this.getNumberOfColumns() != vector.getSize()) {
+            throw new IllegalArgumentException("Перемножаться могут только матрицы у которых число столбцов первой совпадает с числом строк второй");
+        }
+
+        Matrix tempMatrix = new Matrix(this.getNumberOfRows(), 1);
+        double currentNewElement = 0;
+        for (int i = 0; i < this.matrixRows.length; ++i) {
+            for (int j = 0; j < this.matrixRows[i].getSize(); ++j) {
+                currentNewElement = currentNewElement + this.matrixRows[i].getElement(j) * vector.getElement(j);
+            }
+            tempMatrix.matrixRows[i].setElement(0, currentNewElement);
+            currentNewElement = 0;
+        }
+        this.matrixRows = tempMatrix.matrixRows;
+        return this;
+    }
+
+    public Matrix sum(Matrix matrix1) {
+        if (this.matrixRows.length != matrix1.matrixRows.length ||
+                this.matrixRows[0].getSize() != matrix1.matrixRows[0].getSize()) {
+            throw new IllegalArgumentException("Складываться могут только матрицы одинаковой размерности");
+        }
+        for (int i = 0; i < this.matrixRows.length; ++i) {
+            this.matrixRows[i].sum(matrix1.matrixRows[i]);
+        }
+        return this;
+    }
+
+    public Matrix sub(Matrix matrix1) {
+        if (this.matrixRows.length != matrix1.matrixRows.length ||
+                this.matrixRows[0].getSize() != matrix1.matrixRows[0].getSize()) {
+            throw new IllegalArgumentException("Вычитать можно только матрицы одинаковой размерности");
+        }
+        for (int i = 0; i < this.matrixRows.length; ++i) {
+            this.matrixRows[i].sub(matrix1.matrixRows[i]);
+        }
+        return this;
+    }
 }
+
+
