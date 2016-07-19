@@ -3,6 +3,9 @@ package academit.kgm.hash;
 
 import academit.kgm.vector.Vector;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         Vector vector1 = new Vector(5);
@@ -10,9 +13,14 @@ public class Main {
         Vector vector3 = new Vector(5);
 
         HashTable<Vector> vectorHashTable = new HashTable<>();
-        vectorHashTable.addElement(vector1);
-        vectorHashTable.addElement(vector2);
-        vectorHashTable.addElement(vector3);
+        vectorHashTable.add(vector1);
+        vectorHashTable.add(vector2);
+        vectorHashTable.add(vector3);
+
+        System.out.println(Arrays.toString(vectorHashTable.toArray()));
+
+        System.out.println(vector1.hashCode());
+        System.out.println(vector3.hashCode());
 
         System.out.println(vectorHashTable.contains(vector1));
         System.out.println(vectorHashTable.size());
@@ -21,5 +29,6 @@ public class Main {
         System.out.println(vectorHashTable.remove(vector1));
         System.out.println(vectorHashTable.contains(vector1));
         System.out.println(vectorHashTable.size());
+        System.out.println(Arrays.toString(vectorHashTable.toArray()));
     }
 }
